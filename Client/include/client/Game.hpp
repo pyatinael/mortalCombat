@@ -1,6 +1,15 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+
+#include "GamePlay/Stage.hpp"
+#include "GamePlay/Fighter.hpp"
+#include "network/NetworkClient.hpp"
+
+#include <optional>
+#include <iostream>
+#include <memory>
 
 /**
  * @brief Экраны клиентской части игры.
@@ -58,6 +67,30 @@ private:
     sf::RectangleShape gremlinButton;
     sf::RectangleShape goblinButton;
     sf::RectangleShape marauderButton;
+
+    /** @brief Часы для расчёта времени между кадрами анимации. */
+    sf::Clock animationClock;
+
+    /** @brief Текущая арена боя. */
+    Stage stage;
+
+    /** @brief Персонаж текущего клиента. */
+    std::unique_ptr<Fighter> fighter;
+
+    /** @brief Персонаж противника. */
+    std::unique_ptr<Fighter> enemy;
+
+    /** @brief Объект для сетевого взаимодействия с сервером. */
+    NetworkClient networkClient;
+
+    /** @brief Показывает, подключён ли клиент к серверу. */
+    bool serverConnected = false;
+
+    /** @brief Последнее состояние игры, полученное от сервера. */
+    GameStatePacket lastState;
+
+    /** @brief Персонаж, выбранный текущим клиентом. */
+    Character selectedCharacter = Character::None;
 
     /** @brief Кнопки выбора карт. */
     std::vector<sf::RectangleShape> mapButtons;
