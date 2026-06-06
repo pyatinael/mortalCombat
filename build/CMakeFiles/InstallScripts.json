@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/elina/Desktop/MortalCombatGit/build/cmake_install.cmake",
+		"/Users/elina/Desktop/MortalCombatGit/build/Shared/cmake_install.cmake",
+		"/Users/elina/Desktop/MortalCombatGit/build/Client/cmake_install.cmake",
+		"/Users/elina/Desktop/MortalCombatGit/build/Server/cmake_install.cmake",
+		"/Users/elina/Desktop/MortalCombatGit/build/tests/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
