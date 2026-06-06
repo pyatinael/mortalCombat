@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Network.hpp>
+<<<<<<< Updated upstream
 #include <cstdint>
 
 #include "GameStatePacket.hpp"
@@ -94,4 +95,32 @@ public:
      * @return true, если id уже получен.
      */
     bool hasId() const;
+=======
+#include <string>
+
+#include "FighterStatePacket.hpp"
+
+class InputPacket;
+
+class NetworkClient
+{
+private:
+    sf::TcpSocket socket;
+
+public:
+    bool connect(
+        const sf::IpAddress& ip,
+        unsigned short port
+    );
+
+    void disconnect();
+
+    bool sendInput(
+        const InputPacket& input
+    );
+
+    bool receiveState(
+        FighterStatePacket& state
+    );
+>>>>>>> Stashed changes
 };

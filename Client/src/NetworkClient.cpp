@@ -1,4 +1,5 @@
 #include "network/NetworkClient.hpp"
+<<<<<<< Updated upstream
 #include "network/PacketType.hpp"
 
 #include <iostream>
@@ -16,10 +17,32 @@ bool NetworkClient::connect(const sf::IpAddress& ip, unsigned short port) {
 
     std::cout << "Connected to server\n";
     connected = true;
+=======
+#include "network/InputPacket.hpp"
+#include "network/PacketType.hpp"
+
+#include <iostream>
+
+#include <cstdint>
+
+bool NetworkClient::connect(
+    const sf::IpAddress& ip,
+    unsigned short port
+) {
+    if (socket.connect(ip, port) != sf::Socket::Done) {
+        return false;
+    }
+
+    socket.setBlocking(false);
+
+    std::cout << "Connected" << std::endl;
+
+>>>>>>> Stashed changes
     return true;
 }
 
 void NetworkClient::disconnect() {
+<<<<<<< Updated upstream
     // Закрываем соединение с сервером.
     socket.disconnect();
     connected = false;
@@ -99,10 +122,53 @@ bool NetworkClient::receiveGameState(GameStatePacket& state) {
     }
 
     if (status != sf::Socket::Status::Done) {
+=======
+    socket.disconnect();
+}
+
+bool NetworkClient::sendInput(const InputPacket& input) {
+    sf::Packet packet;
+
+    packet << static_cast<std::uint8_t>(PacketType::Input);
+
+    packet << input.left << input.right << input.attack;
+
+    auto status = socket.send(packet);
+
+    std::cout
+        << "send status = "
+        << status
+        << std::endl;
+
+    if (status == sf::Socket::Done) {
+        std::cout << "Input sent" << std::endl;
+    }
+
+    return status == sf::Socket::Done;
+}
+
+bool NetworkClient::receiveState(
+    FighterStatePacket& state
+)
+{
+    sf::Packet packet;
+
+    auto status =
+        socket.receive(packet);
+
+    if (status == sf::Socket::NotReady)
+    {
+        return false;
+    }
+
+    if (status != sf::Socket::Done)
+    {
+>>>>>>> Stashed changes
         return false;
     }
 
     std::uint8_t typeUint8;
+<<<<<<< Updated upstream
     packet >> typeUint8;
 
     PacketType type = static_cast<PacketType>(typeUint8);
@@ -155,4 +221,23 @@ std::uint32_t NetworkClient::getPlayerId() const {
 
 bool NetworkClient::hasId() const {
     return hasPlayerId;
+=======
+
+    packet >> typeUint8;
+
+    PacketType type =
+        static_cast<PacketType>(typeUint8);
+
+    if (type != PacketType::State)
+    {
+        return false;
+    }
+
+    packet
+        >> state.playerId
+        >> state.x
+        >> state.y;
+
+    return true;
+>>>>>>> Stashed changes
 }
